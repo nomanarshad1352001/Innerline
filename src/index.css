@@ -1,0 +1,182 @@
+@import "tailwindcss";
+
+@theme {
+  /* ——— Heavy-industrial palette: asphalt, safety amber, concrete, steel ——— */
+  --color-ink: #0a0b0e;
+  --color-navy-950: #101216;
+  --color-navy-900: #16181d;
+  --color-navy-800: #1e2127;
+  --color-navy-700: #2a2e36;
+  --color-navy-600: #394049;
+  --color-sprout: #ffab15;
+  --color-sprout-deep: #c47400;
+  --color-sprout-soft: #ffd98c;
+  --color-cream: #f2f1ed;
+  --color-parchment: #e7e6e1;
+  --color-steel: #a0a6ad;
+  --color-mist: #dbdcde;
+
+  /* squared, fabricated edges across the whole system */
+  --radius-xl: 8px;
+  --radius-2xl: 10px;
+  --radius-3xl: 12px;
+  --radius-full: 6px;
+
+  --font-display: "Anton", "Archivo", sans-serif;
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --ease-luxe: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --animate-marquee: marquee 46s linear infinite;
+  --animate-marquee-fast: marquee 30s linear infinite;
+  --animate-marquee-rev: marquee-rev 40s linear infinite;
+  --animate-pulse-soft: pulse-soft 3.2s ease-in-out infinite;
+  --animate-spin-slow: spin 14s linear infinite;
+
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes marquee-rev {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
+  }
+  @keyframes pulse-soft {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.35; }
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-ink);
+  color: var(--color-cream);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-sprout);
+  color: var(--color-ink);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-ink);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-700);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-sprout-deep);
+}
+
+/* ————— Luxury helpers ————— */
+
+.font-display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.012em;
+}
+
+.text-outline-cream {
+  -webkit-text-stroke: 1px rgba(242, 241, 237, 0.2);
+  color: transparent;
+}
+.text-outline-ink {
+  -webkit-text-stroke: 1px rgba(10, 11, 14, 0.25);
+  color: transparent;
+}
+
+.rail-mask {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* film grain overlay */
+.grain {
+  position: fixed;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-shift 9s steps(6) infinite;
+}
+@keyframes grain-shift {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -5%); }
+  60% { transform: translate(-3%, -2%); }
+  80% { transform: translate(4%, 4%); }
+}
+
+/* industrial diagonal pinstripe backdrops */
+.blueprint-dark {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(160, 166, 173, 0.05) 0px,
+    rgba(160, 166, 173, 0.05) 1px,
+    transparent 1px,
+    transparent 16px
+  );
+}
+.blueprint-light {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(16, 18, 22, 0.05) 0px,
+    rgba(16, 18, 22, 0.05) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+}
+
+/* hazard-stripe accent bar */
+.hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-sprout) 0px,
+    var(--color-sprout) 10px,
+    var(--color-ink) 10px,
+    var(--color-ink) 20px
+  );
+}
+
+/* editorial link underline */
+.link-sweep {
+  position: relative;
+}
+.link-sweep::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -3px;
+  height: 1px;
+  width: 100%;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s var(--ease-luxe);
+}
+.link-sweep:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.pause-on-hover:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+input, select, textarea {
+  outline: none;
+}
